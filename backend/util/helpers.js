@@ -20,8 +20,25 @@ function validatePassword(password) {
   return { valid: true };
 }
 
+/**
+ * @param {unknown} value
+ * @param {string} field
+ * @returns {{ ok: true, value: number } | { ok: false, error: string }}
+ */
+function parseRequiredInt(value, field) {
+  if (value === undefined || value === null || value === "") {
+    return { ok: false, error: `${field} is required` };
+  }
+  const n = Number(value);
+  if (!Number.isInteger(n)) {
+    return { ok: false, error: `${field} must be an integer` };
+  }
+  return { ok: true, value: n };
+}
+
 module.exports = {
   PASSWORD_MIN_LENGTH,
   PASSWORD_MAX_LENGTH,
   validatePassword,
+  parseRequiredInt,
 };
